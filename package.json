@@ -1,0 +1,112 @@
+{
+  "name": "theoria",
+  "displayName": "Theoria — Prompt Refiner",
+  "description": "AI-powered prompt refinement tool. Select text, click, get a better prompt instantly.",
+  "version": "0.2.0",
+  "publisher": "theoria",
+  "icon": "icon.png",
+  "main": "./out/extension.js",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": ["Other", "Machine Learning"],
+  "activationEvents": ["onStartupFinished"],
+  "contributes": {
+    "commands": [
+      {
+        "command": "theoria.refinePrompt",
+        "title": "Refine Prompt",
+        "category": "Theoria",
+        "icon": "$(wand)"
+      },
+      {
+        "command": "theoria.refineSelection",
+        "title": "Refine Selected Text",
+        "category": "Theoria",
+        "icon": "$(wand)"
+      },
+      {
+        "command": "theoria.openPanel",
+        "title": "Open Theoria Panel",
+        "category": "Theoria",
+        "icon": "$(wand)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "theoria.refinePrompt",
+        "key": "ctrl+shift+t",
+        "mac": "cmd+shift+t"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "theoria.refineSelection",
+          "when": "editorHasSelection",
+          "group": "1_modification@100"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "theoria.openPanel",
+          "group": "navigation",
+          "when": "editorIsOpen"
+        }
+      ],
+      "commandPalette": [
+        { "command": "theoria.refinePrompt" },
+        { "command": "theoria.refineSelection", "when": "editorHasSelection" },
+        { "command": "theoria.openPanel" }
+      ]
+    },
+    "views": {
+      "theoria-sidebar": [
+        {
+          "type": "webview",
+          "id": "theoria.sidebarView",
+          "name": "Theoria"
+        }
+      ]
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "theoria-sidebar",
+          "title": "Theoria — Prompt Refiner",
+          "icon": "$(wand)"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Theoria",
+      "properties": {
+        "theoria.openrouterApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "Your OpenRouter API key. Alternatively, set OPENROUTER_API_KEY in a .env file at your workspace root.",
+          "markdownDescription": "Your [OpenRouter](https://openrouter.ai) API key. Alternatively, set `OPENROUTER_API_KEY` in a `.env` file at your workspace root."
+        },
+        "theoria.model": {
+          "type": "string",
+          "default": "anthropic/claude-3-haiku",
+          "description": "The OpenRouter model to use for prompt refinement."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc",
+    "watch": "tsc -watch",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.39",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.9.3",
+    "@vscode/vsce": "^3.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.1"
+  }
+}
