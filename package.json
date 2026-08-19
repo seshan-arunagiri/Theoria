@@ -9,6 +9,7 @@
     "type": "git",
     "url": "https://github.com/seshan-arunagiri/Theoria"
   },
+  "author": "seshan-arunagiri",
   "icon": "icon.png",
   "main": "./out/extension.js",
   "engines": {
