@@ -125,14 +125,33 @@ npm run package
 ```
 vs-thinker/
 ├── src/
-│   ├── extension.ts    # Entry point: command registration, sidebar provider,
-│   │                   # API calls, history management
-│   ├── scoring.ts      # Local heuristic scoring engine (no network required)
-│   └── webview.html    # Sidebar UI — HTML/CSS/JS served inside the WebviewView
-├── package.json        # Extension manifest: commands, keybindings, settings
-├── tsconfig.json
-└── icon.png
+│   ├── extension.ts     # Entry point: activates the extension, registers all three
+│   │                   # commands, creates the sidebar WebviewView provider, wires
+│   │                   # up the status bar item, handles API calls to OpenRouter,
+│   │                   # and manages refinement history in VS Code global state.
+│   ├── scoring.ts       # Self-contained heuristic scoring engine. Exported function:
+│   │                   # analyzePrompt(prompt: string): ScoreResult
+│   │                   # Returns a 0–100 score + per-dimension breakdown + feedback.
+│   └── webview.html     # Full sidebar UI served as an inline WebviewView. Contains
+│                       # all HTML, CSS, and vanilla JS. Communicates with the host
+│                       # extension via postMessage / onDidReceiveMessage.
+├── package.json         # Extension manifest: commands, keybindings, menus,
+│                        # viewsContainers, configuration schema.
+├── tsconfig.json        # TypeScript compiler options (outputs to ./out/)
+├── icon.png             # Extension icon
+└── .env                 # (not committed) Place OPENROUTER_API_KEY here
 ```
+
+---
+
+## Contributing
+
+Bug reports and pull requests are welcome. For significant changes, open an issue first to discuss what you'd like to change.
+
+1. Fork the repo and create a branch from `main`.
+2. Run `npm install` and `npm run watch`.
+3. Press **F5** to open an Extension Development Host.
+4. Make your changes, then open a Pull Request with a clear description.
 
 ---
 
