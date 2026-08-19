@@ -1,5 +1,9 @@
 # Theoria — Prompt Refiner
 
+![Version](https://img.shields.io/badge/version-0.2.0-blue)
+![VS Code](https://img.shields.io/badge/vscode-%5E1.80.0-007ACC)
+![License](https://img.shields.io/badge/license-MIT-green)
+
 > AI-powered prompt refinement tool. Select text, click, get a better prompt instantly.
 
 A VS Code extension that helps you write better AI prompts. Theoria analyses your prompt locally using a heuristic scoring engine, and optionally sends it to an AI model via [OpenRouter](https://openrouter.ai) to return a refined version with an explanation and quality score.
@@ -25,13 +29,15 @@ A VS Code extension that helps you write better AI prompts. Theoria analyses you
 
 ## Commands
 
-| Command | Title | Notes |
+| Command | Title | Where it appears |
 |---|---|---|
-| `theoria.refinePrompt` | Refine Prompt | Opens the sidebar; pre-fills any selected text |
-| `theoria.refineSelection` | Refine Selected Text | Right-click context menu; requires an active selection |
-| `theoria.openPanel` | Open Theoria Panel | Editor title bar button and status bar item |
+| `theoria.refinePrompt` | Refine Prompt | Command Palette · Keyboard shortcut (`Ctrl+Shift+T` / `Cmd+Shift+T`) |
+| `theoria.refineSelection` | Refine Selected Text | Right-click context menu (only shown when text is selected) · Command Palette |
+| `theoria.openPanel` | Open Theoria Panel | Editor title bar (wand icon) · Status bar item · Command Palette |
 
 **Keyboard shortcut:** `Ctrl+Shift+T` (Windows/Linux) · `Cmd+Shift+T` (macOS) — triggers `theoria.refinePrompt`.
+
+All three commands pre-fill the sidebar with the currently selected editor text (if any) and focus the Theoria sidebar view.
 
 ---
 
