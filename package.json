@@ -4,6 +4,7 @@
   "description": "AI-powered prompt refinement tool. Select text, click, get a better prompt instantly.",
   "version": "0.2.0",
   "publisher": "theoria",
+  "license": "MIT",
   "icon": "icon.png",
   "main": "./out/extension.js",
   "engines": {
