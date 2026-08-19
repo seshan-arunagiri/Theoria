@@ -5,6 +5,10 @@
   "version": "0.2.0",
   "publisher": "theoria",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seshan-arunagiri/Theoria"
+  },
   "icon": "icon.png",
   "main": "./out/extension.js",
   "engines": {
