@@ -66,6 +66,8 @@ Theoria ships a deterministic, regex-free heuristic analyser that scores any pro
 
 When a dimension is not satisfied, the engine returns a human-readable `feedback` string explaining exactly what to add.
 
+**Fallback behaviour:** When no API key is configured, `extension.ts` calls `analyzePrompt()` directly and returns the local score as the result. The refined prompt is returned unchanged, and the explanation note tells you to add an API key. This means Theoria is always functional for scoring and feedback even without any external service.
+
 ---
 
 ## Setup
@@ -74,7 +76,7 @@ When a dimension is not satisfied, the engine returns a human-readable `feedback
 
 1. Open **Settings** (`Ctrl+,`) and search for `Theoria`.
 2. Set **`theoria.openrouterApiKey`** to your [OpenRouter API key](https://openrouter.ai/keys).
-3. Optionally change **`theoria.model`** (default: `anthropic/claude-3-haiku`).
+3. Optionally change **`theoria.model`** (default: `anthropic/claude-3-haiku`) to any model slug available on OpenRouter.
 
 ### Option 2 — `.env` file
 
@@ -84,7 +86,7 @@ Create a `.env` file at your **workspace root** or in the extension directory:
 OPENROUTER_API_KEY=sk-or-...
 ```
 
-The extension loads this file automatically on startup via `dotenv`.
+The extension loads this file automatically on startup via `dotenv`. Workspace root is checked first; the extension directory is used as a fallback.
 
 > **No API key?** Theoria will still run the local scoring engine and show feedback without contacting any external service.
 
