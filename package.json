@@ -15,8 +15,13 @@
   "engines": {
     "vscode": "^1.80.0"
   },
-  "categories": ["Other", "Machine Learning"],
-  "activationEvents": ["onStartupFinished"],
+  "categories": [
+    "Other",
+    "Machine Learning"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "contributes": {
     "commands": [
       {
@@ -61,9 +66,16 @@
         }
       ],
       "commandPalette": [
-        { "command": "theoria.refinePrompt" },
-        { "command": "theoria.refineSelection", "when": "editorHasSelection" },
-        { "command": "theoria.openPanel" }
+        {
+          "command": "theoria.refinePrompt"
+        },
+        {
+          "command": "theoria.refineSelection",
+          "when": "editorHasSelection"
+        },
+        {
+          "command": "theoria.openPanel"
+        }
       ]
     },
     "views": {
@@ -107,10 +119,13 @@
     "package": "vsce package"
   },
   "devDependencies": {
+    "@types/jest": "^30.0.0",
     "@types/node": "^20.19.39",
     "@types/vscode": "^1.80.0",
-    "typescript": "^5.9.3",
-    "@vscode/vsce": "^3.0.0"
+    "@vscode/vsce": "^3.0.0",
+    "jest": "^30.4.2",
+    "ts-jest": "^29.4.12",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "dotenv": "^17.4.1"
