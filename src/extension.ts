@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 import * as dotenv from "dotenv";
 import * as path from "path";
-import * as fs from "fs";
 import { analyzePrompt } from "./scoring";
 
 // ─── Bootstrap ────────────────────────────────────────────────────────────────
@@ -263,19 +262,20 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
         return process.env.OPENROUTER_API_KEY?.trim() ?? "";
     }
 
-    private _getLogoDataUri(): string {
-        try {
-            const iconPath = path.join(this._context.extensionPath, "icon.png");
-            const iconBuffer = fs.readFileSync(iconPath);
-            return `data:image/png;base64,${iconBuffer.toString("base64")}`;
-        } catch {
-            // File missing or unreadable — caller falls back to the CSS gradient bar
-            return "";
-        }
+    private _getLogoSvg(): string {
+        // Unique Theoria mark: geometric "T" + three ascending dots = refine/improve
+        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="22" height="22">'
+            + '<rect width="36" height="36" rx="8" fill="#1a1a1d"/>'
+            + '<rect x="6" y="10" width="16" height="2.5" rx="1.25" fill="#d97757"/>'
+            + '<rect x="13" y="10" width="2.5" height="15" rx="1.25" fill="#d97757"/>'
+            + '<circle cx="27" cy="22" r="2" fill="#b85c38"/>'
+            + '<circle cx="27" cy="16.5" r="2" fill="#d97757"/>'
+            + '<circle cx="27" cy="11" r="2" fill="#e8967a"/>'
+            + '</svg>';
     }
 
     private _buildHtml(): string {
-        const logoDataUri = this._getLogoDataUri();
+        const logoSvg = this._getLogoSvg();
         return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -331,9 +331,9 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
       border-bottom: 1px solid var(--border);
       flex-shrink: 0;
     }
-    .header-left { display: flex; align-items: center; gap: 7px; }
-    .logo-bar { width: 3px; height: 14px; background: linear-gradient(180deg, var(--accent), var(--accent2)); border-radius: 2px; }
-    .logo-icon { height: 22px; width: 22px; object-fit: contain; border-radius: 4px; display: block; }
+    .header-left { display: flex; align-items: center; gap: 8px; }
+    .logo-svg-wrap { display: flex; align-items: center; flex-shrink: 0; }
+    .logo-svg-wrap svg { border-radius: 5px; }
     .header-title { font-size: 0.75em; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
 
     /* ─── Tabs */
@@ -548,9 +548,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
   <!-- Header -->
   <div class="header">
     <div class="header-left">
-      \${logoDataUri
-        ? '<img class="logo-icon" src="' + logoDataUri + '" alt="Theoria logo">'
-        : '<div class="logo-bar"></div>'}
+      <div class="logo-svg-wrap">${logoSvg}</div>
       <span class="header-title">Theoria</span>
     </div>
   </div>
