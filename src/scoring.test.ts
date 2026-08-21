@@ -373,3 +373,96 @@ describe("Constraints dimension", () => {
     );
   });
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INTEGRATION — full end-to-end prompts
+// Each test checks: total score, every breakdown dimension, and the
+// exact feedback array so regressions in any dimension are caught together.
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe("Integration — full prompt scoring", () => {
+  test("near-perfect prompt scores 100 with empty feedback", () => {
+    // clarity:     20 — 15+ words
+    // context:     20 — "typescript", "node"
+    // structure:   20 — starts with "build"
+    // intent:      20 — "so that"
+    // constraints: 20 — "secure", "without"
+    const prompt =
+      "Build a secure REST API with Node.js and TypeScript that handles user " +
+      "authentication so that clients can access protected resources without " +
+      "exposing sensitive data to unauthorised callers";
+
+    const result = analyzePrompt(prompt);
+
+    expect(result.score).toBe(100);
+    expect(result.breakdown).toEqual({
+      clarity: 20,
+      context: 20,
+      structure: 20,
+      intent: 20,
+      constraints: 20,
+    });
+    expect(result.feedback).toHaveLength(0);
+  });
+
+  test("vague one-liner scores 0 and returns all five feedback messages", () => {
+    // clarity:     0  — < 8 words, no context keyword
+    // context:     0  — no tech keyword (avoids 'for','with','in','using')
+    // structure:   0  — no verb, no '?', single sentence
+    // intent:      0  — no intent keyword
+    // constraints: 0  — no constraint or role keyword
+    const prompt = "Make the app better";
+
+    const result = analyzePrompt(prompt);
+
+    expect(result.score).toBe(0);
+    expect(result.breakdown).toEqual({
+      clarity: 0,
+      context: 0,
+      structure: 0,
+      intent: 0,
+      constraints: 0,
+    });
+    expect(result.feedback).toContain("Prompt is too short — describe the full goal");
+    expect(result.feedback).toContain(
+      "Add context: mention the tech stack, language, or framework"
+    );
+    expect(result.feedback).toContain(
+      "Start with a clear action verb (e.g. 'Build', 'Create', 'Fix')"
+    );
+    expect(result.feedback).toContain(
+      "Clarify the intent or expected outcome (e.g. 'so that users can...')"
+    );
+    expect(result.feedback).toContain(
+      "Add constraints (e.g. performance, security, what should NOT change)"
+    );
+    expect(result.feedback).toHaveLength(5);
+  });
+
+  test("partial prompt (good context + structure, missing intent + constraints) scores 60", () => {
+    // clarity:     20 — 15+ words
+    // context:     20 — "react", "typescript"
+    // structure:   20 — starts with "create"
+    // intent:       0 — no intent keyword
+    // constraints:  0 — no constraint or role keyword
+    const prompt =
+      "Create a reusable modal component in React and TypeScript that accepts " +
+      "title, body, and onClose props and renders a backdrop overlay";
+
+    const result = analyzePrompt(prompt);
+
+    expect(result.score).toBe(60);
+    expect(result.breakdown.clarity).toBe(20);
+    expect(result.breakdown.context).toBe(20);
+    expect(result.breakdown.structure).toBe(20);
+    expect(result.breakdown.intent).toBe(0);
+    expect(result.breakdown.constraints).toBe(0);
+    expect(result.feedback).toContain(
+      "Clarify the intent or expected outcome (e.g. 'so that users can...')"
+    );
+    expect(result.feedback).toContain(
+      "Add constraints (e.g. performance, security, what should NOT change)"
+    );
+    expect(result.feedback).toHaveLength(2);
+  });
+});
