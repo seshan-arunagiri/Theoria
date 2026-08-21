@@ -275,3 +275,101 @@ describe("Intent dimension", () => {
     );
   });
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CONSTRAINTS
+// Rules:
+//   Any constraintKeyword present → constraints = 20
+//   Any roleKeyword present       → constraints = 20
+//   Neither                       → constraints = 0, feedback: "Add constraints…"
+// constraintKeywords: "performance", "secure", "security", "scalable",
+//   "accessible", "mobile", "responsive", "fast", "lightweight",
+//   "no external", "without", "must not", "should not", "existing",
+//   "do not change", "keep", "maintain"
+// roleKeywords: "as a", "as an", "acting as", "you are"
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe("Constraints dimension", () => {
+  test("'performance' keyword triggers constraints score of 20", () => {
+    const result = analyzePrompt(
+      "Optimise the search endpoint for performance so it responds in under 200ms for 10k records"
+    );
+    expect(result.breakdown.constraints).toBe(20);
+    expect(result.feedback).not.toContain(
+      "Add constraints (e.g. performance, security, what should NOT change)"
+    );
+  });
+
+  test("'security' keyword triggers constraints score of 20", () => {
+    const result = analyzePrompt(
+      "Review the user input handling code and fix any security vulnerabilities before the audit"
+    );
+    expect(result.breakdown.constraints).toBe(20);
+  });
+
+  test("'scalable' keyword triggers constraints score of 20", () => {
+    const result = analyzePrompt(
+      "Design a scalable job queue system using Redis and BullMQ that supports 1000 jobs per second"
+    );
+    expect(result.breakdown.constraints).toBe(20);
+  });
+
+  test("'responsive' keyword triggers constraints score of 20", () => {
+    const result = analyzePrompt(
+      "Build a responsive dashboard layout using Tailwind CSS that works on mobile and desktop"
+    );
+    expect(result.breakdown.constraints).toBe(20);
+  });
+
+  test("'without' keyword triggers constraints score of 20", () => {
+    const result = analyzePrompt(
+      "Add server-side pagination to the users table without breaking the existing filter logic"
+    );
+    expect(result.breakdown.constraints).toBe(20);
+  });
+
+  test("'do not change' keyword triggers constraints score of 20", () => {
+    const result = analyzePrompt(
+      "Refactor the API layer to use async/await but do not change the public interface signatures"
+    );
+    expect(result.breakdown.constraints).toBe(20);
+  });
+
+  test("'maintain' keyword triggers constraints score of 20", () => {
+    const result = analyzePrompt(
+      "Migrate the app from Create React App to Vite and maintain full TypeScript support throughout"
+    );
+    expect(result.breakdown.constraints).toBe(20);
+  });
+
+  test("role keyword 'as a' triggers constraints score of 20", () => {
+    const result = analyzePrompt(
+      "As a senior backend engineer, review this Express middleware and suggest improvements"
+    );
+    expect(result.breakdown.constraints).toBe(20);
+  });
+
+  test("role keyword 'acting as' triggers constraints score of 20", () => {
+    const result = analyzePrompt(
+      "Acting as a code reviewer, identify any issues with this TypeScript utility function"
+    );
+    expect(result.breakdown.constraints).toBe(20);
+  });
+
+  test("role keyword 'you are' triggers constraints score of 20", () => {
+    const result = analyzePrompt(
+      "You are a DevOps engineer. Write a GitHub Actions workflow that runs Jest tests on every PR"
+    );
+    expect(result.breakdown.constraints).toBe(20);
+  });
+
+  test("prompt with no constraint or role keyword scores 0 and adds constraints feedback", () => {
+    const result = analyzePrompt(
+      "Rewrite the image upload handler to use S3 instead of local disk storage"
+    );
+    expect(result.breakdown.constraints).toBe(0);
+    expect(result.feedback).toContain(
+      "Add constraints (e.g. performance, security, what should NOT change)"
+    );
+  });
+});
