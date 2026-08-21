@@ -82,7 +82,16 @@ export function analyzePrompt(prompt: string): ScoreResult {
         feedback.push("Add constraints (e.g. performance, security, what should NOT change)");
     }
 
-    const score = clarity + context + structure + intent + constraints;
+    let score = clarity + context + structure + intent + constraints;
+
+    // Strict length penalty: short prompts cannot get high scores regardless of keywords
+    if (words.length < 8) {
+        score = Math.min(score, 20);
+    } else if (words.length < 15) {
+        score = Math.min(score, 50);
+    } else if (words.length < 25) {
+        score = Math.min(score, 80);
+    }
 
     return {
         score,
