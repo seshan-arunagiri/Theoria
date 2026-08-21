@@ -275,11 +275,12 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     }
 
     private _buildHtml(): string {
+        const logoDataUri = this._getLogoDataUri();
         return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline';">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:;">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Theoria</title>
   <style>
