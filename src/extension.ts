@@ -263,6 +263,17 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
         return process.env.OPENROUTER_API_KEY?.trim() ?? "";
     }
 
+    private _getLogoDataUri(): string {
+        try {
+            const iconPath = path.join(this._context.extensionPath, "icon.png");
+            const iconBuffer = fs.readFileSync(iconPath);
+            return `data:image/png;base64,${iconBuffer.toString("base64")}`;
+        } catch {
+            // File missing or unreadable — caller falls back to the CSS gradient bar
+            return "";
+        }
+    }
+
     private _buildHtml(): string {
         return `<!DOCTYPE html>
 <html lang="en">
