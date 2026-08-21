@@ -333,6 +333,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     }
     .header-left { display: flex; align-items: center; gap: 7px; }
     .logo-bar { width: 3px; height: 14px; background: linear-gradient(180deg, var(--accent), var(--accent2)); border-radius: 2px; }
+    .logo-icon { height: 22px; width: 22px; object-fit: contain; border-radius: 4px; display: block; }
     .header-title { font-size: 0.75em; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
 
     /* ─── Tabs */
@@ -547,7 +548,9 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
   <!-- Header -->
   <div class="header">
     <div class="header-left">
-      <div class="logo-bar"></div>
+      \${logoDataUri
+        ? '<img class="logo-icon" src="' + logoDataUri + '" alt="Theoria logo">'
+        : '<div class="logo-bar"></div>'}
       <span class="header-title">Theoria</span>
     </div>
   </div>
