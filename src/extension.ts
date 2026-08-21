@@ -683,40 +683,22 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
   // ── Templates data
   const TEMPLATES = [
     {
-      icon: '&#x1F527;',
-      name: 'Build REST API',
-      desc: 'Scaffold a full REST API with endpoints and validation',
-      text: 'Build a REST API with Node.js and Express. Include CRUD endpoints, input validation with Zod, JWT authentication, error handling middleware, and a health check endpoint. Use TypeScript.'
+      icon: '&#x1F331;',
+      name: 'Beginner Concept',
+      desc: 'Learn a new library or concept with simple examples',
+      text: 'Acting as an expert software developer, explain the core concept of [Insert Topic, e.g., NumPy] in Python. Keep the explanation under 150 words, ensure it is easy for a beginner to understand, and provide a single real-world code example so I can utilize it later.'
     },
     {
-      icon: '&#x1F5FA;',
-      name: 'System Design',
-      desc: 'Design a scalable system with trade-off analysis',
-      text: 'Design a scalable URL shortening service. Cover: system requirements, high-level architecture, database schema, API design, caching strategy, rate limiting, and scaling considerations. Estimate for 100M URLs.'
+      icon: '&#x1F4D6;',
+      name: 'Intermediate Usage',
+      desc: 'Understand practical implementations and best practices',
+      text: 'Explain how to implement [Insert Topic, e.g., Data Aggregation] using [Insert Library, e.g., Pandas]. Provide a clear, step-by-step tutorial with practical code examples. Highlight common pitfalls to avoid and explain the best practices for production use. Ensure the tone is instructional.'
     },
     {
-      icon: '&#x1F4CB;',
-      name: 'Interview Question',
-      desc: 'Generate a technical interview question with solution',
-      text: 'Generate a medium-difficulty LeetCode-style algorithm problem about dynamic programming. Include: problem statement, input/output examples, constraints, brute force approach, optimized approach with complexity analysis, and Python solution.'
-    },
-    {
-      icon: '&#x1F41B;',
-      name: 'Debug Code',
-      desc: 'Find and explain bugs in existing code',
-      text: 'Debug the following code. Identify all bugs, explain why each is a problem, provide a fixed version, and suggest improvements for readability and performance. Code: [paste your code here]'
-    },
-    {
-      icon: '&#x1F4DA;',
-      name: 'Write Docs',
-      desc: 'Generate comprehensive documentation',
-      text: 'Write comprehensive developer documentation for this module including: overview, installation, API reference with all parameters and return types, usage examples, common mistakes, and changelog. Module: [paste your module here]'
-    },
-    {
-      icon: '&#x1F9EA;',
-      name: 'Write Tests',
-      desc: 'Generate unit and integration tests',
-      text: 'Write comprehensive unit tests using Jest and TypeScript for the following function. Cover: happy path, edge cases, error scenarios, and boundary conditions. Mock all external dependencies using jest.mock. Function: [paste your function here]'
+      icon: '&#x1F680;',
+      name: 'Advanced Deep Dive',
+      desc: 'Explore architecture, trade-offs, and optimization',
+      text: 'Provide a deep architectural dive into [Insert Topic, e.g., Scikit-Learn Pipelines]. Analyze the performance trade-offs, memory constraints, and scalability limits. Include advanced optimization techniques, and provide a comprehensive code example demonstrating how to architect a scalable solution for this domain.'
     },
   ];
 
