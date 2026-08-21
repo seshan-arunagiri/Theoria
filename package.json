@@ -2,7 +2,7 @@
   "name": "theoria",
   "displayName": "Theoria — Prompt Refiner",
   "description": "AI-powered prompt refinement tool. Select text, click, get a better prompt instantly.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "publisher": "theoria",
   "license": "MIT",
   "repository": {
