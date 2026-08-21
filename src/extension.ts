@@ -263,14 +263,10 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     }
 
     private _getLogoSvg(): string {
-        // Unique Theoria mark: geometric "T" + three ascending dots = refine/improve
-        return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" width="22" height="22">'
-            + '<rect width="36" height="36" rx="8" fill="#1a1a1d"/>'
-            + '<rect x="6" y="10" width="16" height="2.5" rx="1.25" fill="#d97757"/>'
-            + '<rect x="13" y="10" width="2.5" height="15" rx="1.25" fill="#d97757"/>'
-            + '<circle cx="27" cy="22" r="2" fill="#b85c38"/>'
-            + '<circle cx="27" cy="16.5" r="2" fill="#d97757"/>'
-            + '<circle cx="27" cy="11" r="2" fill="#e8967a"/>'
+        // "The Refining Path": Rough/chaotic input (left) snaps into precise/straight output (right)
+        return '<svg class="logo-icon" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">'
+            + '<path d="M 2 12 Q 5 4, 8 12 T 14 12" stroke="var(--accent2)" stroke-width="2" />'
+            + '<line x1="14" y1="12" x2="22" y2="12" stroke="var(--accent)" stroke-width="3" />'
             + '</svg>';
     }
 
