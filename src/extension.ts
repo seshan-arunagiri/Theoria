@@ -3,12 +3,12 @@ import * as dotenv from "dotenv";
 import * as path from "path";
 import { analyzePrompt } from "./scoring";
 
-// ─── Bootstrap ────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Bootstrap â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const workspaceRoot = vscode.workspace.workspaceFolders?.[0]?.uri?.fsPath ?? "";
 dotenv.config({ path: path.join(workspaceRoot, ".env") });
 dotenv.config({ path: path.join(__dirname, "..", ".env") });
 
-// ─── Types ─────────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 type Mode = "optimize" | "explain" | "generate" | "documentation";
 type Confidence = "high" | "medium" | "low";
@@ -29,12 +29,12 @@ interface HistoryEntry {
     timestamp: string;
 }
 
-// ─── Globals ───────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Globals â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 let statusBarItem: vscode.StatusBarItem;
 let sidebarProvider: TheoriaSidebarProvider | undefined;
 
-// ─── Activate ─────────────────────────────────────────────────────────────────
+// â”€â”€â”€ Activate â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export function activate(context: vscode.ExtensionContext) {
     console.log("[Theoria] Extension activated");
@@ -82,7 +82,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 export function deactivate() { statusBarItem?.dispose(); }
 
-// ─── Sidebar Provider ──────────────────────────────────────────────────────────
+// â”€â”€â”€ Sidebar Provider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     private _view?: vscode.WebviewView;
@@ -200,7 +200,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
             const rawContent = data.choices?.[0]?.message?.content ?? "";
             const parsed = safeParseAIResponse(rawContent, userInput);
 
-            // Score the IMPROVED prompt (not the original) — this fills the chips
+            // Score the IMPROVED prompt (not the original) â€” this fills the chips
             const improvedScore = analyzePrompt(parsed.improvedPrompt);
 
             // Derive confidence from score if AI didn't provide it
@@ -222,7 +222,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
                 improved: parsed.improvedPrompt,
                 explanation: parsed.explanation,
                 score: parsed.score,
-                breakdown: improvedScore.breakdown,   // ← improved prompt breakdown
+                breakdown: improvedScore.breakdown,   // â† improved prompt breakdown
                 feedback: improvedScore.feedback,
                 confidence,
             });
@@ -291,9 +291,9 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
       --surface3:   #2a2a2f;
       --border:     #2e2e36;
       --border-hi:  #3c3c46;
-      --accent:     #4fc3f7;
-      --accent2:    #7c6af7;
-      --accent-dim: #142030;
+      --accent:     #d97757;
+      --accent2:    #b85c38;
+      --accent-dim: #2a1510;
       --text:       #d0d0d8;
       --text-dim:   #80808c;
       --text-mute:  #48484f;
@@ -319,12 +319,12 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
       height: 100%;
     }
 
-    /* ─── Scrollbar */
+    /* â”€â”€â”€ Scrollbar */
     ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 2px; }
 
-    /* ─── Header */
+    /* â”€â”€â”€ Header */
     .header {
       display: flex; align-items: center; justify-content: space-between;
       padding: 9px 12px 8px;
@@ -336,7 +336,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     .logo-svg-wrap svg { border-radius: 5px; }
     .header-title { font-size: 0.75em; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); }
 
-    /* ─── Tabs */
+    /* â”€â”€â”€ Tabs */
     .tabs {
       display: flex;
       border-bottom: 1px solid var(--border);
@@ -354,12 +354,12 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     .tab:hover { color: var(--text-dim); }
     .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
 
-    /* ─── Panels */
+    /* â”€â”€â”€ Panels */
     .panel { display: none; flex-direction: column; flex: 1; overflow: hidden; }
     .panel.active { display: flex; }
     .scroll { flex: 1; overflow-y: auto; padding: 10px 12px; display: flex; flex-direction: column; gap: 10px; }
 
-    /* ─── Input area */
+    /* â”€â”€â”€ Input area */
     .input-area {
       padding: 10px 12px;
       border-bottom: 1px solid var(--border);
@@ -397,14 +397,14 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     }
     .btn:disabled { opacity: 0.38; cursor: not-allowed; }
     .btn.primary { background: var(--accent); color: #000; width: 100%; }
-    .btn.primary:hover:not(:disabled) { background: #81d4fa; }
+    .btn.primary:hover:not(:disabled) { background: #e89a7c; }
     .btn.ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--border-hi); }
     .btn.ghost:hover { background: var(--surface2); color: var(--text); }
     .btn.sm { padding: 4px 9px; font-size: 0.75em; }
     .btn.danger { color: var(--red); border-color: #5a2020; }
     .btn.danger:hover { background: #2a0e0e; }
 
-    /* ─── Cards */
+    /* â”€â”€â”€ Cards */
     .section-label { font-size: 0.63em; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-mute); font-weight: 700; margin-bottom: 4px; }
 
     .card {
@@ -415,21 +415,21 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
       padding: 9px 10px; font-size: 0.85em; line-height: 1.65;
       white-space: pre-wrap; word-break: break-word; color: var(--text);
     }
-    .card-body.mono { font-family: var(--mono); color: #9ecbeb; font-size: 0.82em; }
-    .card.improved { border-color: #1a3a50; }
+    .card-body.mono { font-family: var(--mono); color: #d4957a; font-size: 0.82em; }
+    .card.improved { border-color: #3a1e13; }
     .card-actions {
       display: flex; gap: 5px; padding: 6px 9px;
       border-top: 1px solid var(--border); background: var(--surface2);
     }
 
-    /* ─── Explanation */
+    /* â”€â”€â”€ Explanation */
     .expl-box {
       padding: 8px 10px; background: var(--accent-dim);
-      border: 1px solid #1d3f58; border-radius: var(--radius);
-      font-size: 0.82em; color: #80cef0; line-height: 1.6;
+      border: 1px solid #4a2415; border-radius: var(--radius);
+      font-size: 0.82em; color: #e0a882; line-height: 1.6;
     }
 
-    /* ─── Confidence badge */
+    /* â”€â”€â”€ Confidence badge */
     .confidence-row { display: flex; align-items: center; gap: 6px; }
     .badge {
       display: inline-flex; align-items: center; gap: 4px;
@@ -444,7 +444,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     .badge.low { background: #2a0e0e; border: 1px solid #5a2020; color: var(--red); }
     .badge.low .badge-dot { background: var(--red); }
 
-    /* ─── Score */
+    /* â”€â”€â”€ Score */
     .score-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; }
     .score-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
     .ring-wrap { position: relative; width: 56px; height: 56px; flex-shrink: 0; }
@@ -460,6 +460,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     .bar-fill { height: 100%; border-radius: 3px; transition: width 0.9s cubic-bezier(.4,0,.2,1); }
     .bar-labels { display: flex; justify-content: space-between; font-size: 0.6em; color: var(--text-mute); }
 
+    /* â”€â”€â”€ Breakdown chips */
     /* ─── Breakdown chips */
     .chip-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-top: 8px; }
     .chip { background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; padding: 6px 8px; }
@@ -485,7 +486,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     }
     .ok-dot { width: 5px; height: 5px; background: var(--green); border-radius: 50%; flex-shrink: 0; }
 
-    /* ─── States */
+    /* â”€â”€â”€ States */
     .state-box { display: none; }
     .state-box.active { display: block; }
 
@@ -501,7 +502,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     .loading-text { color: var(--text-dim); font-size: 0.82em; animation: pulse 1.4s ease-in-out infinite; }
     @keyframes pulse { 0%,100%{opacity:0.35} 50%{opacity:1} }
 
-    /* ─── Templates */
+    /* â”€â”€â”€ Templates */
     .template-grid { display: flex; flex-direction: column; gap: 5px; }
     .tpl-btn {
       display: flex; align-items: center; gap: 8px;
@@ -515,7 +516,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     .tpl-name { font-size: 0.78em; font-weight: 600; color: var(--text); }
     .tpl-desc { font-size: 0.7em; color: var(--text-mute); margin-top: 1px; }
 
-    /* ─── History */
+    /* â”€â”€â”€ History */
     .hist-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
     .hist-item {
       background: var(--surface); border: 1px solid var(--border);
@@ -530,7 +531,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     .hist-time { font-size: 0.6em; color: var(--text-mute); }
     .hist-empty { text-align: center; padding: 30px 12px; color: var(--text-mute); font-size: 0.82em; line-height: 1.6; }
 
-    /* ─── Toast */
+    /* â”€â”€â”€ Toast */
     .toast {
       position: fixed; bottom: 10px; right: 10px; left: 10px;
       background: #242428; color: var(--text);
@@ -581,7 +582,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
       <!-- Empty state -->
       <div class="state-box active" id="state-empty">
         <div class="empty-hint">
-          <strong>Theoria — Prompt Refiner</strong>
+          <strong>Theoria â€” Prompt Refiner</strong>
           Type a prompt above and click Refine, or select text in the editor and press Ctrl+Shift+T.
         </div>
       </div>
@@ -601,7 +602,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
         <div>
           <div class="confidence-row" style="margin-bottom:6px">
             <div class="label">Confidence</div>
-            <div class="badge" id="conf-badge"><div class="badge-dot"></div><span id="conf-label">—</span></div>
+            <div class="badge" id="conf-badge"><div class="badge-dot"></div><span id="conf-label">â€”</span></div>
           </div>
           <div class="expl-box" id="r-explanation"></div>
         </div>
@@ -634,7 +635,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
                   stroke-dasharray="138.2" stroke-dashoffset="138.2"/>
               </svg>
               <div class="ring-text">
-                <span class="ring-num" id="ring-num">—</span>
+                <span class="ring-num" id="ring-num">â€”</span>
                 <span class="ring-denom">/100</span>
               </div>
             </div>
@@ -681,15 +682,36 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
   let lastImproved = '';
 
   // ── Templates data
-  const TEMPLATES = [
+  const TEMPLATE_CATEGORIES = [
     {
-      icon: '&#x1F331;',
+      id: 'beginner',
       name: 'Beginner Concept',
       desc: 'Learn a new library or concept with simple examples',
-      text: 'Acting as an expert software developer, explain the core concept of [Insert Topic, e.g., NumPy] in Python. Keep the explanation under 150 words, ensure it is easy for a beginner to understand, and provide a single real-world code example so I can utilize it later.'
+      templates: [
+        {
+          name: 'Learn a New Library',
+          desc: 'Get a concise introduction and starter example',
+          text: 'Acting as an expert software developer, explain the core concept of [Insert Library, e.g., NumPy] in Python. Keep the explanation under 150 words, ensure it is easy for a beginner to understand, and provide a single real-world code example so I can utilize it later.'
+        },
+        {
+          name: 'Understand a Core Concept',
+          desc: 'Break down complex topics into simple terms',
+          text: 'Explain the concept of [Insert Concept, e.g., Dependency Injection] in simple, beginner-friendly terms. Use a real-world analogy to make it intuitive, and provide a short code snippet demonstrating how it is applied in practice.'
+        },
+        {
+          name: 'Compare Two Approaches',
+          desc: 'Understand when to use one tool over another',
+          text: 'Compare [Approach A, e.g., REST] and [Approach B, e.g., GraphQL]. Explain the pros and cons of each, highlight their primary use cases, and give a concrete example of a scenario where one is clearly better than the other.'
+        },
+        {
+          name: 'Explain Existing Code',
+          desc: 'Get a plain-English breakdown of code',
+          text: 'Review the following code block and explain what it does step-by-step. Break down the logic, explain any built-in functions used, and clarify the overall goal of the snippet. Code: [paste your code here]'
+        }
+      ]
     },
     {
-      icon: '&#x1F4D6;',
+      id: 'intermediate',
       name: 'Intermediate Usage',
       desc: 'Understand practical implementations and best practices',
       text: 'Explain how to implement [Insert Topic, e.g., Data Aggregation] using [Insert Library, e.g., Pandas]. Provide a clear, step-by-step tutorial with practical code examples. Highlight common pitfalls to avoid and explain the best practices for production use. Ensure the tone is instructional.'
@@ -702,7 +724,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     },
   ];
 
-  // ── Render templates
+  // â”€â”€ Render templates
   function renderTemplates() {
     const grid = document.getElementById('template-grid');
     grid.innerHTML = '';
@@ -718,14 +740,14 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
         document.getElementById('input').value = t.text;
         switchTab('result');
         document.getElementById('input').focus();
-        showToast('Template loaded — click Refine to process');
+        showToast('Template loaded â€” click Refine to process');
       };
       grid.appendChild(btn);
     });
   }
   renderTemplates();
 
-  // ── Tabs
+  // â”€â”€ Tabs
   function switchTab(name) {
     ['result','templates','history'].forEach(t => {
       document.getElementById('tab-'+t).classList.toggle('active', t===name);
@@ -733,14 +755,14 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     });
   }
 
-  // ── Result states
+  // â”€â”€ Result states
   function showResultState(id) {
     ['state-empty','state-loading','state-result'].forEach(s => {
       document.getElementById(s).classList.toggle('active', s===id);
     });
   }
 
-  // ── Messages from extension
+  // â”€â”€ Messages from extension
   window.addEventListener('message', e => {
     const msg = e.data;
     if (msg.command === 'prefill') {
@@ -763,7 +785,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     }
   });
 
-  // ── Streaming reveal effect
+  // â”€â”€ Streaming reveal effect
   function streamText(el, text, delayMs) {
     el.textContent = '';
     let i = 0;
@@ -792,7 +814,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     // Original (instant)
     document.getElementById('r-original').textContent = d.original || '';
 
-    // Improved — streaming reveal
+    // Improved â€” streaming reveal
     const improvedEl = document.getElementById('r-improved');
     streamText(improvedEl, d.improved || '', 18);
 
@@ -849,7 +871,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     showResultState('state-result');
   }
 
-  // ── History
+  // â”€â”€ History
   function renderHistory(items) {
     const list = document.getElementById('history-list');
     if (!items || items.length === 0) {
@@ -887,7 +909,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     showToast('History cleared');
   }
 
-  // ── Actions
+  // â”€â”€ Actions
   function doRefine() {
     const text = document.getElementById('input').value.trim();
     if (!text) { showToast('Enter a prompt first'); return; }
@@ -923,7 +945,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     }
 }
 
-// ─── CodeAction Provider ───────────────────────────────────────────────────────
+// â”€â”€â”€ CodeAction Provider â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 class TheoriaCodeActionProvider implements vscode.CodeActionProvider {
     provideCodeActions(document: vscode.TextDocument, range: vscode.Range | vscode.Selection): vscode.CodeAction[] {
@@ -935,7 +957,7 @@ class TheoriaCodeActionProvider implements vscode.CodeActionProvider {
     }
 }
 
-// ─── System Prompt (mode-aware) ────────────────────────────────────────────────
+// â”€â”€â”€ System Prompt (mode-aware) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function buildSystemPrompt(rawPrompt: string, mode: Mode): string {
     const modeInstructions: Record<Mode, string> = {
@@ -964,7 +986,7 @@ ${rawPrompt}
 """`;
 }
 
-// ─── Safe JSON Parser ──────────────────────────────────────────────────────────
+// â”€â”€â”€ Safe JSON Parser â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 function safeParseAIResponse(content: string, originalInput: string): AIResponse {
     console.log("[Theoria] AI RAW:", content);
@@ -995,7 +1017,7 @@ function safeParseAIResponse(content: string, originalInput: string): AIResponse
         const looksLikePrompt = rawText.length > 20 && !rawText.startsWith("{");
         return {
             improvedPrompt: looksLikePrompt ? rawText : originalInput,
-            explanation: looksLikePrompt ? "AI returned plain text — used directly." : "Could not parse AI response.",
+            explanation: looksLikePrompt ? "AI returned plain text â€” used directly." : "Could not parse AI response.",
             feedback: [],
             score: 60,
             confidence: "medium",
