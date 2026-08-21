@@ -572,6 +572,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
   <!-- Tabs -->
   <div class="tabs">
     <div class="tab active" id="tab-result" onclick="switchTab('result')">Result</div>
+    <div class="tab" id="tab-explanation" onclick="switchTab('explanation')">Explanation</div>
     <div class="tab" id="tab-templates" onclick="switchTab('templates')">Templates</div>
     <div class="tab" id="tab-history" onclick="switchTab('history')">History</div>
   </div>
@@ -655,6 +656,14 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
       </div><!-- /state-result -->
     </div><!-- /scroll -->
   </div><!-- /panel-result -->
+
+  <!-- Panel: Explanation -->
+  <div class="panel" id="panel-explanation">
+    <div class="scroll">
+      <div id="expl-what-worked"></div>
+      <div id="expl-what-to-improve"></div>
+    </div>
+  </div>
 
   <!-- Panel: Templates -->
   <div class="panel" id="panel-templates">
@@ -749,7 +758,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
 
   // â”€â”€ Tabs
   function switchTab(name) {
-    ['result','templates','history'].forEach(t => {
+    ['result','explanation','templates','history'].forEach(t => {
       document.getElementById('tab-'+t).classList.toggle('active', t===name);
       document.getElementById('panel-'+t).classList.toggle('active', t===name);
     });
@@ -777,6 +786,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     }
     if (msg.command === 'result') {
       renderResult(msg);
+      renderExplanationTab(msg);
       document.getElementById('btn-refine').disabled = false;
       switchTab('result');
     }
@@ -871,7 +881,53 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     showResultState('state-result');
   }
 
-  // â”€â”€ History
+  // ── Explanation Tab
+  function renderExplanationTab(d) {
+    const workedEl = document.getElementById('expl-what-worked');
+    const improveEl = document.getElementById('expl-what-to-improve');
+    if (!workedEl || !improveEl) return;
+    
+    workedEl.innerHTML = '<div class="section-label">What Worked</div>';
+    improveEl.innerHTML = '<div class="section-label" style="margin-top:15px">What to Improve</div>';
+    
+    let workedCount = 0;
+    let improveCount = 0;
+    
+    const bd = d.breakdown || {};
+    const orig = (d.original || '').trim();
+    // Truncate original for the before/after example
+    const shortOrig = orig.length > 30 ? orig.substring(0, 30) + '...' : orig;
+
+    const addWorked = (title, reason) => {
+      workedCount++;
+      workedEl.innerHTML += '<div class="fb-item" style="background:var(--surface2); border-color:var(--green);"><div class="fb-dot" style="background:var(--green)"></div><div style="font-size:0.9em; line-height:1.4"><strong style="color:var(--text)">' + title + ':</strong> ' + reason + '</div></div>';
+    };
+
+    const addImprove = (title, reason, fix) => {
+      improveCount++;
+      improveEl.innerHTML += '<div class="fb-item" style="background:var(--surface2); border-color:var(--orange);"><div class="fb-dot" style="background:var(--orange)"></div><div style="font-size:0.9em; line-height:1.4"><strong style="color:var(--text)">' + title + ':</strong> ' + reason + '<div style="margin-top:6px; padding:8px; background:var(--bg); border-radius:4px; font-family:var(--mono); font-size:0.85em; border:1px solid var(--border)"><strong style="color:var(--text-dim)">Example Fix:</strong><br><span style="color:var(--text-mute)">Instead of: </span>"' + shortOrig + '"<br><span style="color:var(--text-mute)">Try: </span>' + fix + '</div></div></div>';
+    };
+
+    if (bd.clarity === 20) addWorked("Length & Detail", "Your prompt was long enough (15+ words). This ensures the AI has enough detail to fully understand your goal.");
+    else addImprove("Length & Detail", "Your prompt was too short. Short prompts force the AI to guess your intent.", '"' + shortOrig + ' — plus 1-2 more sentences explaining the background or specific edge cases."');
+
+    if (bd.context === 20) addWorked("Tech Stack Context", "You specified the tech stack, language, or framework. This removes ambiguity about which libraries or syntax to use.");
+    else addImprove("Tech Stack Context", "You didn't mention any specific technology, language, or framework. The AI might provide a generic answer or guess the wrong stack.", '"' + shortOrig + ' in React and TypeScript."');
+
+    if (bd.structure === 20) addWorked("Action-Oriented Structure", "Your prompt clearly started with an action verb or asked a direct question. This helps the AI immediately understand its task.");
+    else addImprove("Action-Oriented Structure", "Your prompt lacks a clear action verb or direct question. This makes it harder for the AI to know exactly what action you want it to take.", '"Create/Build/Explain... ' + shortOrig + '"');
+
+    if (bd.intent === 20) addWorked("Clear Intent", "You explicitly stated the desired outcome or intent. The AI now understands why you need this.");
+    else addImprove("Clear Intent", "You didn't state the expected outcome or 'why' you are asking this. The AI might solve the immediate problem but miss the bigger picture.", '"' + shortOrig + ' so that users can [your end goal]."');
+
+    if (bd.constraints === 20) addWorked("Constraints & Roles", "You included constraints (e.g., performance, security) or assigned a role. This narrows down the possibilities and forces a production-ready answer.");
+    else addImprove("Constraints & Roles", "You didn't include any constraints or non-functional requirements (like performance or roles). The AI might give a naive or inefficient solution.", '"' + shortOrig + ', ensuring the solution is highly performant and secure."');
+
+    if (workedCount === 0) workedEl.innerHTML += '<div style="color:var(--text-mute); font-size:0.8em; margin-left:14px; margin-top:8px;">No major strengths identified. Follow the improvement suggestions below!</div>';
+    if (improveCount === 0) improveEl.innerHTML += '<div style="color:var(--text-mute); font-size:0.8em; margin-left:14px; margin-top:8px;">Perfect prompt! No structural improvements needed.</div>';
+  }
+
+  // ── History
   function renderHistory(items) {
     const list = document.getElementById('history-list');
     if (!items || items.length === 0) {
