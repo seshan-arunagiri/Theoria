@@ -1,4 +1,4 @@
-# Theoria — Prompt Refiner
+# Theoria  -  Prompt Refiner
 
 ![Version](https://img.shields.io/badge/version-0.2.0-blue)
 ![VS Code](https://img.shields.io/badge/vscode-%5E1.80.0-007ACC)
@@ -18,12 +18,12 @@ A VS Code extension that helps you write better AI prompts. Theoria analyses you
 
 ## Features
 
-- **Local scoring engine** — works entirely offline, no API key required
-- **AI refinement** — connects to OpenRouter to rewrite and score your prompt
-- **4 refinement modes** — Optimize, Explain, Generate Code, Documentation
-- **Editor integration** — right-click context menu, keyboard shortcut, status bar item
-- **History** — the last 20 refinements are stored in VS Code global state
-- **Quick-start templates** — pre-written prompts for common tasks
+- **Local scoring engine**  -  works entirely offline, no API key required
+- **AI refinement**  -  connects to OpenRouter to rewrite and score your prompt
+- **4 refinement modes**  -  Optimize, Explain, Generate Code, Documentation
+- **Editor integration**  -  right-click context menu, keyboard shortcut, status bar item
+- **History**  -  the last 20 refinements are stored in VS Code global state
+- **Quick-start templates**  -  pre-written prompts for common tasks
 
 ---
 
@@ -35,7 +35,7 @@ A VS Code extension that helps you write better AI prompts. Theoria analyses you
 | `theoria.refineSelection` | Refine Selected Text | Right-click context menu (only shown when text is selected) · Command Palette |
 | `theoria.openPanel` | Open Theoria Panel | Editor title bar (wand icon) · Status bar item · Command Palette |
 
-**Keyboard shortcut:** `Ctrl+Shift+T` (Windows/Linux) · `Cmd+Shift+T` (macOS) — triggers `theoria.refinePrompt`.
+**Keyboard shortcut:** `Ctrl+Shift+T` (Windows/Linux) · `Cmd+Shift+T` (macOS)  -  triggers `theoria.refinePrompt`.
 
 All three commands pre-fill the sidebar with the currently selected editor text (if any) and focus the Theoria sidebar view.
 
@@ -54,7 +54,7 @@ All three commands pre-fill the sidebar with the currently selected editor text 
 
 ## Local Scoring Engine (`scoring.ts`)
 
-Theoria ships a deterministic, regex-free heuristic analyser that scores any prompt out of **100** across five dimensions. This runs locally — no network call, no API key needed.
+Theoria ships a deterministic, regex-free heuristic analyser that scores any prompt out of **100** across five dimensions. This runs locally  -  no network call, no API key needed.
 
 | Dimension | Max | What earns full marks |
 |---|---|---|
@@ -72,13 +72,13 @@ When a dimension is not satisfied, the engine returns a human-readable `feedback
 
 ## Setup
 
-### Option 1 — VS Code Settings (recommended)
+### Option 1  -  VS Code Settings (recommended)
 
 1. Open **Settings** (`Ctrl+,`) and search for `Theoria`.
 2. Set **`theoria.openrouterApiKey`** to your [OpenRouter API key](https://openrouter.ai/keys).
 3. Optionally change **`theoria.model`** (default: `anthropic/claude-3-haiku`) to any model slug available on OpenRouter.
 
-### Option 2 — `.env` file
+### Option 2  -  `.env` file
 
 Create a `.env` file at your **workspace root** or in the extension directory:
 
@@ -159,7 +159,7 @@ Bug reports and pull requests are welcome. For significant changes, open an issu
 
 - VS Code `^1.80.0`
 - Node.js (for development only)
-- An [OpenRouter](https://openrouter.ai) API key (optional — local scoring always works)
+- An [OpenRouter](https://openrouter.ai) API key (optional  -  local scoring always works)
 
 ---
 
