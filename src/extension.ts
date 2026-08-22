@@ -733,21 +733,35 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
   function renderTemplates() {
     const grid = document.getElementById('template-grid');
     grid.innerHTML = '';
-    TEMPLATES.forEach(t => {
-      const btn = document.createElement('button');
-      btn.className = 'tpl-btn';
-      btn.innerHTML = \`<span class="tpl-icon">\${t.icon}</span>
-        <div class="tpl-info">
-          <div class="tpl-name">\${t.name}</div>
-          <div class="tpl-desc">\${t.desc}</div>
-        </div>\`;
-      btn.onclick = () => {
-        document.getElementById('input').value = t.text;
-        switchTab('result');
-        document.getElementById('input').focus();
-        showToast('Template loaded â€” click Refine to process');
-      };
-      grid.appendChild(btn);
+    
+    TEMPLATE_CATEGORIES.forEach(cat => {
+      const catDiv = document.createElement('div');
+      catDiv.className = 'tpl-category';
+      
+      const header = document.createElement('div');
+      header.className = 'tpl-cat-header';
+      header.innerHTML = '<svg class="tpl-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg><span>' + cat.name + '</span><span class="tpl-cat-desc">' + (cat.desc || '') + '</span>';
+      header.onclick = () => catDiv.classList.toggle('expanded');
+      
+      const sublist = document.createElement('div');
+      sublist.className = 'tpl-sublist';
+      
+      (cat.templates || []).forEach(t => {
+        const btn = document.createElement('button');
+        btn.className = 'tpl-btn';
+        btn.innerHTML = '<div class="tpl-info"><div class="tpl-name">' + t.name + '</div><div class="tpl-desc">' + t.desc + '</div></div>';
+        btn.onclick = () => {
+          document.getElementById('input').value = t.text;
+          switchTab('result');
+          document.getElementById('input').focus();
+          showToast('Template loaded — click Refine to process');
+        };
+        sublist.appendChild(btn);
+      });
+      
+      catDiv.appendChild(header);
+      catDiv.appendChild(sublist);
+      grid.appendChild(catDiv);
     });
   }
   renderTemplates();
