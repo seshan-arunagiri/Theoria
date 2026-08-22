@@ -200,7 +200,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
             const rawContent = data.choices?.[0]?.message?.content ?? "";
             const parsed = safeParseAIResponse(rawContent, userInput);
 
-            // Score the IMPROVED prompt (not the original) â€” this fills the chips
+            // Score the IMPROVED prompt (not the original)  -  this fills the chips
             const improvedScore = analyzePrompt(parsed.improvedPrompt);
 
             // Derive confidence from score if AI didn't provide it
@@ -579,7 +579,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
       <!-- Empty state -->
       <div class="state-box active" id="state-empty">
         <div class="empty-hint">
-          <strong>Theoria â€” Prompt Refiner</strong>
+          <strong>Theoria  -  Prompt Refiner</strong>
           Type a prompt above and click Refine, or select text in the editor and press Ctrl+Shift+T.
         </div>
       </div>
@@ -599,7 +599,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
         <div>
           <div class="confidence-row" style="margin-bottom:6px">
             <div class="label">Confidence</div>
-            <div class="badge" id="conf-badge"><div class="badge-dot"></div><span id="conf-label">â€”</span></div>
+            <div class="badge" id="conf-badge"><div class="badge-dot"></div><span id="conf-label"> - </span></div>
           </div>
           <div class="expl-box" id="r-explanation"></div>
         </div>
@@ -632,7 +632,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
                   stroke-dasharray="138.2" stroke-dashoffset="138.2"/>
               </svg>
               <div class="ring-text">
-                <span class="ring-num" id="ring-num">â€”</span>
+                <span class="ring-num" id="ring-num"> - </span>
                 <span class="ring-denom">/100</span>
               </div>
             </div>
@@ -834,7 +834,7 @@ class TheoriaSidebarProvider implements vscode.WebviewViewProvider {
     // Original (instant)
     document.getElementById('r-original').textContent = d.original || '';
 
-    // Improved â€” streaming reveal
+    // Improved  -  streaming reveal
     const improvedEl = document.getElementById('r-improved');
     streamText(improvedEl, d.improved || '', 18);
 
@@ -1083,7 +1083,7 @@ function safeParseAIResponse(content: string, originalInput: string): AIResponse
         const looksLikePrompt = rawText.length > 20 && !rawText.startsWith("{");
         return {
             improvedPrompt: looksLikePrompt ? rawText : originalInput,
-            explanation: looksLikePrompt ? "AI returned plain text â€” used directly." : "Could not parse AI response.",
+            explanation: looksLikePrompt ? "AI returned plain text  -  used directly." : "Could not parse AI response.",
             feedback: [],
             score: 60,
             confidence: "medium",
